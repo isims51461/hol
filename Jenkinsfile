@@ -4,11 +4,7 @@ pipeline {
         maven 'M2_HOME'
     }
     stages {
-        stage('Hello') {
-            steps {
-                echo 'Hello World'  
-            }
-        }
+        
         stage('build') {
             steps {
                 echo 'Hello World'
@@ -17,16 +13,21 @@ pipeline {
                 sh 'mvn package'
             }
         }
-    stage('deploy') {
-            steps {
-                echo 'Hello World'       
-            }
-        }
     stage('test') {
             steps {
-                echo 'Hello World'
+                sh 'mvn test'      
             }
         }
+    stage ('build and publish image') {
+  steps {
+    script {
+          checkout scm
+          docker.withRegistry('', 'isims51461') {
+          def customImage = docker.build("isims51461/hol-pipeline:${env.BUILD_ID}")
+          customImage.push()
+          }
+    }
+
     }
 }
 
