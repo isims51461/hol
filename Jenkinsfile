@@ -3,31 +3,34 @@ pipeline {
     tools {
         maven 'M2_HOME'
     }
+
     stages {
         
-        stage('build') {
+       stage('build') {
             steps {
-                echo 'Hello World'
+                echo 'Hello build'
                 sh 'mvn clean'
-                sh 'mvn install'
+                sh  'mvn install'
                 sh 'mvn package'
             }
         }
-    stage('test') {
+        stage('test') {
             steps {
-                sh 'mvn test'      
+                sh 'mvn test'
+                
             }
         }
-    stage ('build and publish image') {
-  steps {
-    script {
+        stage ('build and publish image') {
+      steps {
+        script {
           checkout scm
-          docker.withRegistry('', 'DockerRegistryID') {
-          def customImage = docker.build("isims51461/hol-pipeline:${env.BUILD_ID}")
+          docker.withRegistry('', 'DockerRgistryID') {
+          def customImage = docker.build("kserge2001/hol-pipeline:${env.BUILD_ID}")
           customImage.push()
           }
     }
+        
     }
 }
-    }
+  }
 }
