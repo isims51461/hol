@@ -1,4 +1,4 @@
-build 'hol-CI'
+build 'hol-CD'
 triggers {
   pollSCM '* * * * *'
 }
