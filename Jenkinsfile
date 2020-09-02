@@ -1,3 +1,14 @@
+build 'hol-CI'
+triggers {
+  pollSCM '* * * * *'
+}
+
+ stage ( 'deployment trigger'){
+          steps {
+            build 'hol-CI'
+}
+}
+
 pipeline {
     agent any
     tools {
